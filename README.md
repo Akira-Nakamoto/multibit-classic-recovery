@@ -246,3 +246,10 @@ These matches align with the structure of potential wallet address, making them 
    - Once alignment is corrected, attempt decryption recursively.
    - Validate results by checking for recognizable patterns (e.g., Bitcoin metadata, keys).
 ```
+
+---
+
+Donations are appreciated, but not required.
+
+Bitcoin:
+34ce3sN5zmiajMimfuron4aLVyu1Y6RNhX
