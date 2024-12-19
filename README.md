@@ -208,6 +208,11 @@ Decrypted key saved to multibit.key_decrypted.bin
    - While not fully readable, the decrypted outputs from these alignments display patterns consistent with structured data.
 3. **Entropy Stability**:
    - Layers around recursion depths `2–4` for shifts `-16` and `-15` maintain stable entropy, confirming structured randomness and a potential proximity to meaningful data.
+4. **Identified Base58-compatible matches**: 
+    - Specific depths are **925, 927, and 929**
+    - Repeatedly observed structured Base58-compatible strings at depths like 909, 923, 927, and more.
+These matches align with the structure of potential wallet address, making them highly significant.
+
 --- 
 ### **Implications for Decryption**
 1. Misalignment must be corrected to stabilize entropy across segments.
@@ -219,6 +224,7 @@ Decrypted key saved to multibit.key_decrypted.bin
 1. **Create Identification Phase**:
     - Identify any potential flaws beyond a reasonable doubt.
     - By analysing the entropy, it may be possible to identify diferences in flaws.
+    - Cycle through plausible variations of derived keys and IVs systematically.    
 
 2. **Realign Blocks** (if required):
    - Address potential byte-level misalignment by systematically shifting the ciphertext.
@@ -228,6 +234,7 @@ Decrypted key saved to multibit.key_decrypted.bin
    - Strip the password as Multibit Legacy did, using higher order bytes (UTF16-BE treated as UTF16-LE)
 
 4. **Entropy-Guided Adjustments**:
+   - Break the ciphertext into smaller chunks and analyze their entropy to isolate irregularities.
    - Focus on restoring entropy values to consistent levels (~4.0).
    - Use these values as benchmarks to evaluate alignment success, ideally testing before and after.
 
