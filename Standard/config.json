@@ -1,0 +1,17 @@
+{
+    "keyfile_paths": [
+        "Check.key",
+        "multibit.key"
+        
+    ],
+    "walletfile_paths": [
+        "Check.wallet",
+        "multibit.wallet"
+        
+    ],
+    "passwords": {
+        "Check.key": "A working key password",
+        "multibit.key": "a broken key password"
+        
+    }
+}
