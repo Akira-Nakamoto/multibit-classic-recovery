@@ -91,8 +91,8 @@ salt = file[8:16]
 ### Key Derivation:
 ```python
 key_iv = PBKDF2_sha256(password, salt, 1000)
-key = key_iv_1000[0:32]
-iv = key_iv_1000[32:48]
+key = key_iv[0:32]
+iv = key_iv[32:48]
 ```
 
 ### AES Decryption:
