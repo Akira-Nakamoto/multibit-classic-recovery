@@ -158,3 +158,84 @@ Decrypted data (unpadded or raw): b'CENSORED \xd2\xf7W\x0e"\x9cj@\x83H5 An examp
 Decrypted data contains printable characters, possibly successful.
 Decrypted key saved to multibit.key_decrypted.bin
 ```
+
+## Entropic Analysis 
+
+### **Entropy of Check.key**:
+1. **Segments and Entropy Values**:
+   - Data is consistently aligned across segments.
+   - Entropy values fluctuate but remain indicative of well-encrypted data.
+   - Sample segment entropies:
+```python
+     - 0–16 bytes: Entropy = 3.875
+     - 16–32 bytes: Entropy = 4.0
+     - 32–48 bytes: Entropy = 4.0
+     - 48–64 bytes: Entropy = 4.0
+```
+2. **Alignment**:
+   - Check.key displays proper alignment in its ciphertext, with no observable corruption.
+   - Segments align perfectly with AES block size (16 bytes), supporting successful decryption.
+
+3. **Decryption Behavior**:
+   - Padding validation succeeds during decryption, confirming proper structure.
+   - Decrypted outputs demonstrate low entropy, indicative of structured plaintext data.
+
+---
+
+### **Entropy of MultiBit.key**:
+1. **Segments and Entropy Values**:
+   - Entropy fluctuates across segments, with anomalies suggesting misalignment or corruption.
+   - Sample segment entropies:
+```python
+     - 0–16 bytes: Entropy = 3.625
+     - 16–32 bytes: Entropy = 3.875
+     - 32–48 bytes: Entropy = 3.875
+     - 48–64 bytes: Entropy = 4.0
+     - 64–80 bytes: Entropy = 4.0
+     - 80–96 bytes: Entropy = 4.0
+```
+2. **Misalignment and Anomalies**:
+   - Entropy variations at critical segments indicate possible structural issues:
+     - Misaligned blocks or shifted ciphertext.
+     - Corrupted padding (e.g., invalid PKCS7 lengths).
+   - Alignment issues make recursive decryption less reliable, as subsequent layers inherit corruption.
+
+--- 
+### Observations:
+1. **High Entropy**:
+   - Shifts such as `-16`, `-15`, `-14`, and `-12` yield consistent entropy (~4.0), indicating valid decryption boundaries.
+2. **Semi-Structured Outputs**:
+   - While not fully readable, the decrypted outputs from these alignments display patterns consistent with structured data.
+3. **Entropy Stability**:
+   - Layers around recursion depths `2–4` for shifts `-16` and `-15` maintain stable entropy, confirming structured randomness and a potential proximity to meaningful data.
+--- 
+### **Implications for Decryption**
+1. Misalignment must be corrected to stabilize entropy across segments.
+2. Entropy deviations suggest structural corruption, requiring byte-level realignment.
+3. Decryption should focus on restoring proper alignment before recursive decryption attempts.
+
+### Plan:
+```md
+1. **Create Identification Phase**:
+    - Identify any potential flaws beyond a reasonable doubt.
+    - By analysing the entropy, it may be possible to identify diferences in flaws.
+
+2. **Realign Blocks** (if required):
+   - Address potential byte-level misalignment by systematically shifting the ciphertext.
+   - Identify alignments that stabilize entropy across all segments.
+
+3. **Emulate Unicode Bug** (if required):
+   - Strip the password as Multibit Legacy did, using higher order bytes (UTF16-BE treated as UTF16-LE)
+
+4. **Entropy-Guided Adjustments**:
+   - Focus on restoring entropy values to consistent levels (~4.0).
+   - Use these values as benchmarks to evaluate alignment success, ideally testing before and after.
+
+5. **Corruption Mitigation**:
+   - Inspect for anomalies (e.g., malformed padding or shifted blocks).
+   - Adjust ciphertext to emulate the structure observed in a working key.
+
+6. **Layered Decryption**:
+   - Once alignment is corrected, attempt decryption recursively.
+   - Validate results by checking for recognizable patterns (e.g., Bitcoin metadata, keys).
+```
